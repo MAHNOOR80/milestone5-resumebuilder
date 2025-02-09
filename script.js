@@ -13,10 +13,10 @@ document.getElementById("generate").addEventListener("click", function() {
     const certifications = document.getElementById("certifications").value;
     const themeColor = document.getElementById("themeColor").value;
 
-    // Open a new window for the resume preview
+    // Open a new window for preview
     const resumeWindow = window.open('', '_blank', 'width=800,height=600');
 
-    // Handle profile picture if it exists
+    // Handle profile picture
     const profilePic = document.getElementById("profile-pic").files[0];
     let imageSrc = '';
 
@@ -28,7 +28,7 @@ document.getElementById("generate").addEventListener("click", function() {
         };
         reader.readAsDataURL(profilePic);
     } else {
-        generateResume(); // If no image, proceed with resume generation
+        generateResume();
     }
 
     function generateResume() {
@@ -39,154 +39,89 @@ document.getElementById("generate").addEventListener("click", function() {
                 <meta charset="UTF-8">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
                 <title>Generated Resume</title>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
                 <style>
-                    body {
-                        background: #f5f5f5;
-                        font-family: 'Helvetica', sans-serif;
-                        color: #333;
-                        margin: 0;
-                        padding: 20px;
-                    }
-                    .resume-header {
-                        background-color: ${themeColor};
-                        color: white;
-                        padding: 30px;
-                        text-align: center;
-                        width: 100%;
-                    }
-                    .resume-header img {
-                        width: 120px;
-                        height: 120px;
-                        border-radius: 50%;
-                        border: 4px solid white;
-                        display: block;
-                        margin: 0 auto 15px;
-                    }
-                    .resume-header h1 {
-                        font-size: 36px;
-                        margin: 10px 0;
-                    }
-                    .resume-header h3 {
-                        font-size: 24px;
-                        margin: 10px 0;
-                    }
-                    .resume-content {
-                        padding: 20px;
-                        text-align: left;
-                        margin: 20px auto;
-                        max-width: 800px;
-                        width: 100%;
-                        background: #fff;
-                        border-radius: 10px;
-                        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-                    }
-                    .resume-content h2 {
-                        border-bottom: 2px solid ${themeColor};
-                        padding-bottom: 10px;
-                        margin-bottom: 15px;
-                        font-size: 24px;
-                        color: ${themeColor};
-                    }
-                    .resume-content p {
-                        margin-bottom: 15px;
-                        font-size: 18px;
-                    }
-                    .editable {
-                        border: none;
-                        background: transparent;
-                        width: 100%;
-                        font-size: 16px;
-                        color: #333;
-                    }
-                    .auto-expand {
-                        width: 100%;
-                        min-height: 50px;
-                        height: auto;
-                        padding: 10px;
-                        font-size: 16px;
-                        border: none;
-                        outline: none;
-                        background: transparent;
-                        resize: none;
-                        overflow: visible;
-                    }
-                    .section-list {
-                        list-style-type: none;
-                        padding-left: 0;
-                        font-size: 18px;
-                        margin: 10px 0;
-                    }
-                    .section-list li {
-                        margin-bottom: 10px;
+                    * { box-sizing: border-box; margin: 0; padding: 0; }
+                    body { font-family: 'Helvetica', sans-serif; color: #333; background: #f5f5f5; padding: 20px; }
+                    .resume-container { max-width: 800px; margin: 0 auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); }
+                    .resume-header { background-color: ${themeColor}; color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }
+                    .resume-header img { width: 100px; height: 100px; border-radius: 50%; border: 3px solid white; display: block; margin: 0 auto 15px; }
+                    .resume-header h1 { font-size: 28px; margin: 5px 0; }
+                    .resume-header h3 { font-size: 20px; margin: 5px 0; }
+                    .resume-content { padding: 15px; text-align: left; }
+                    .resume-content h2 { border-bottom: 2px solid ${themeColor}; padding-bottom: 5px; margin-bottom: 10px; font-size: 22px; color: ${themeColor}; }
+                    .resume-content p { margin-bottom: 10px; font-size: 16px; }
+                    .section-list { list-style: none; padding-left: 0; font-size: 16px; }
+                    .section-list li { margin-bottom: 5px; }
+                    .download-btn { display: block; margin: 20px auto; padding: 10px 20px; background: ${themeColor}; color: white; border: none; font-size: 16px; cursor: pointer; border-radius: 5px; }
+                    @media (max-width: 600px) {
+                        .resume-header h1 { font-size: 24px; }
+                        .resume-header h3 { font-size: 18px; }
+                        .resume-content { padding: 10px; }
+                        .resume-content p, .section-list { font-size: 14px; }
                     }
                 </style>
             </head>
             <body>
-                <div class="resume-header">
-                    ${imageSrc ? `<img src="${imageSrc}" alt="Profile Picture">` : ''} 
-                    <h1>${name}</h1>
-                    <h3>${title}</h3>
+                <div class="resume-container" id="resume">
+                    <div class="resume-header">
+                        ${imageSrc ? `<img src="${imageSrc}" alt="Profile Picture">` : ''} 
+                        <h1>${name}</h1>
+                        <h3>${title}</h3>
+                    </div>
+
+                    <div class="resume-content">
+                        <p><strong>Email:</strong> ${email}</p>
+                        <p><strong>Phone:</strong> ${phone}</p>
+                        <p><strong>LinkedIn:</strong> ${linkedin}</p>
+                        <p><strong>GitHub:</strong> ${github}</p>
+                    </div>
+
+                    <div class="resume-content">
+                        <h2>Summary</h2>
+                        <p>${summary}</p>
+                    </div>
+
+                    <div class="resume-content">
+                        <h2>Experience</h2>
+                        <p>${experience}</p>
+                    </div>
+
+                    <div class="resume-content">
+                        <h2>Skills</h2>
+                        <ul class="section-list">
+                            ${skills.split('\n').map(skill => `<li>${skill}</li>`).join('')}
+                        </ul>
+                    </div>
+
+                    <div class="resume-content">
+                        <h2>Education</h2>
+                        <ul class="section-list">
+                            ${education.split('\n').map(edu => `<li>${edu}</li>`).join('')}
+                        </ul>
+                    </div>
+
+                    <div class="resume-content">
+                        <h2>Certifications</h2>
+                        <ul class="section-list">
+                            ${certifications.split('\n').map(cert => `<li>${cert}</li>`).join('')}
+                        </ul>
+                    </div>
                 </div>
 
-                <div class="resume-content">
-                    <p><strong>Email:</strong> ${email}</p>
-                    <p><strong>Phone:</strong> ${phone}</p>
-                    <p><strong>LinkedIn:</strong> ${linkedin}</p>
-                    <p><strong>GitHub:</strong> ${github}</p>
-                </div>
+                <button class="download-btn" onclick="downloadPDF()">Download PDF</button>
 
-                <div class="resume-content">
-                    <h2>Summary</h2>
-                    <p class="auto-expand">${summary}</p>
-                </div>
-
-                <div class="resume-content">
-                    <h2>Experience</h2>
-                    <p class="auto-expand">${experience}</p>
-                </div>
-
-                <div class="resume-content">
-                    <h2>Skills</h2>
-                    <ul class="section-list">
-                        ${skills.split('\n').map(skill => `<li>${skill}</li>`).join('')}
-                    </ul>
-                </div>
-
-                <div class="resume-content">
-                    <h2>Education</h2>
-                    <ul class="section-list">
-                        ${education.split('\n').map(edu => `<li>${edu}</li>`).join('')}
-                    </ul>
-                </div>
-
-                <div class="resume-content">
-                    <h2>Certifications</h2>
-                    <ul class="section-list">
-                        ${certifications.split('\n').map(cert => `<li>${cert}</li>`).join('')}
-                    </ul>
-                </div>
+                <script>
+                    function downloadPDF() {
+                        const element = document.getElementById('resume');
+                        html2pdf().from(element).save('Resume.pdf');
+                    }
+                </script>
             </body>
             </html>
         `);
     }
-
-    // Generate the unique URL and shareable link
-    const username = name.toLowerCase().replace(/\s+/g, '-'); // Use name as a unique identifier
-    const uniqueURL = `${username}.vercel.app/resume`;
-
-    document.getElementById("uniqueLink").value = uniqueURL;
-    document.getElementById("shareable-link").style.display = "block";
-    document.getElementById("download").style.display = "block";
-
-    // Add download functionality
-    document.getElementById("download").addEventListener("click", function() {
-        const resumeContent = resumeWindow.document.documentElement.outerHTML;
-        const blob = new Blob([resumeContent], { type: "application/html" });
-        const link = document.createElement("a");
-        link.href = URL.createObjectURL(blob);
-        link.download = `${name}-resume.html`;
-        link.click();
-    });
+    
 });
 
 document.getElementById("themeColor").addEventListener("input", function() {
@@ -194,3 +129,4 @@ document.getElementById("themeColor").addEventListener("input", function() {
     document.querySelector(".sidebar").style.background = this.value;
     document.querySelector("button").style.background = this.value;
 });
+
