@@ -67,8 +67,25 @@
 
     <!-- Download Button -->
     <button id="download" style="display: none;">Download Resume as PDF</button>
-    
+
     <script src="script.js"></script>
     <script src="html2pdf.bundle.js"></script> <!-- Include html2pdf.js -->
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelectorAll("textarea").forEach((textarea) => {
+                textarea.style.overflow = "hidden"; // Hide scrollbar
+                textarea.style.resize = "none"; // Prevent manual resizing
+
+                const adjustHeight = (event) => {
+                    event.target.style.height = "auto"; // Reset height
+                    event.target.style.height = event.target.scrollHeight + "px"; // Adjust height based on content
+                };
+
+                textarea.addEventListener("input", adjustHeight);
+                adjustHeight({ target: textarea }); // Adjust for pre-filled content
+            });
+        });
+    </script>
 </body>
 </html>

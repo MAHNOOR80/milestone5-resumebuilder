@@ -1,4 +1,4 @@
-document.getElementById("generate").addEventListener("click", function() {
+<!-- document.getElementById("generate").addEventListener("click", function() {
     // Gather user input
     const name = document.getElementById("name").value;
     const title = document.getElementById("title").value;
@@ -32,7 +32,7 @@ document.getElementById("generate").addEventListener("click", function() {
     }
 
     function generateResume() {
-        resumeWindow.document.write(`
+        resumeWindow.document.write(
             <!DOCTYPE html>
             <html lang="en">
             <head>
@@ -42,17 +42,16 @@ document.getElementById("generate").addEventListener("click", function() {
                 <style>
                     body {
                         background: #f5f5f5;
-                        font-family: 'Helvetica', sans-serif;
+                        font-family: 'Arial', sans-serif;
                         color: #333;
                         margin: 0;
-                        padding: 20px;
+                        padding: 0;
                     }
                     .resume-header {
                         background-color: ${themeColor};
                         color: white;
-                        padding: 30px;
+                        padding: 20px;
                         text-align: center;
-                        width: 100%;
                     }
                     .resume-header img {
                         width: 120px;
@@ -60,36 +59,35 @@ document.getElementById("generate").addEventListener("click", function() {
                         border-radius: 50%;
                         border: 4px solid white;
                         display: block;
-                        margin: 0 auto 15px;
+                        margin: 0 auto 10px;
                     }
-                    .resume-header h1 {
-                        font-size: 36px;
-                        margin: 10px 0;
+                    #editable-name {
+                        text-align: center;
+                        font-weight: bold;
+                        font-size: 28px;
+                        width: 100%;
+                        border: none;
+                        background: transparent;
+                        color: white;
                     }
-                    .resume-header h3 {
-                        font-size: 24px;
-                        margin: 10px 0;
+                    #editable-title {
+                        text-align: center;
+                        font-weight: bold;
+                        font-size: 20px;
+                        width: 100%;
+                        border: none;
+                        background: transparent;
+                        color: white;
                     }
                     .resume-content {
                         padding: 20px;
                         text-align: left;
-                        margin: 20px auto;
-                        max-width: 800px;
-                        width: 100%;
-                        background: #fff;
-                        border-radius: 10px;
-                        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+                        margin: 20px;
                     }
                     .resume-content h2 {
                         border-bottom: 2px solid ${themeColor};
-                        padding-bottom: 10px;
-                        margin-bottom: 15px;
-                        font-size: 24px;
-                        color: ${themeColor};
-                    }
-                    .resume-content p {
-                        margin-bottom: 15px;
-                        font-size: 18px;
+                        padding-bottom: 5px;
+                        margin-bottom: 10px;
                     }
                     .editable {
                         border: none;
@@ -98,99 +96,86 @@ document.getElementById("generate").addEventListener("click", function() {
                         font-size: 16px;
                         color: #333;
                     }
-                    .auto-expand {
+                    textarea {
                         width: 100%;
                         min-height: 50px;
                         height: auto;
                         padding: 10px;
                         font-size: 16px;
-                        border: none;
-                        outline: none;
-                        background: transparent;
-                        resize: none;
-                        overflow: visible;
-                    }
-                    .section-list {
-                        list-style-type: none;
-                        padding-left: 0;
-                        font-size: 18px;
-                        margin: 10px 0;
-                    }
-                    .section-list li {
-                        margin-bottom: 10px;
+                        border: 1px solid #ddd;
+                        border-radius: 5px;
+                        resize: none; /* Disable resizing */
+                        overflow: hidden; /* Hide scrollbars */
                     }
                 </style>
             </head>
             <body>
                 <div class="resume-header">
-                    ${imageSrc ? `<img src="${imageSrc}" alt="Profile Picture">` : ''} 
-                    <h1>${name}</h1>
-                    <h3>${title}</h3>
+                    ${imageSrc ? <img src="${imageSrc}" alt="Profile Picture"> : ''} 
+                    <h1><input class="editable" type="text" value="${name}" id="editable-name"></h1>
+                    <h3><input class="editable" type="text" value="${title}" id="editable-title"></h3>
                 </div>
 
                 <div class="resume-content">
-                    <p><strong>Email:</strong> ${email}</p>
-                    <p><strong>Phone:</strong> ${phone}</p>
-                    <p><strong>LinkedIn:</strong> ${linkedin}</p>
-                    <p><strong>GitHub:</strong> ${github}</p>
+                    <p><strong>Email:</strong> <input class="editable" type="email" value="${email}" id="editable-email"></p>
+                    <p><strong>Phone:</strong> <input class="editable" type="tel" value="${phone}" id="editable-phone"></p>
+                    <p><strong>LinkedIn:</strong> <input class="editable" type="url" value="${linkedin}" id="editable-linkedin"></p>
+                    <p><strong>GitHub:</strong> <input class="editable" type="url" value="${github}" id="editable-github"></p>
                 </div>
 
                 <div class="resume-content">
                     <h2>Summary</h2>
-                    <p class="auto-expand">${summary}</p>
+                    <textarea class="editable" id="editable-summary">${summary}</textarea>
                 </div>
 
                 <div class="resume-content">
                     <h2>Experience</h2>
-                    <p class="auto-expand">${experience}</p>
+                    <textarea class="editable" id="editable-experience">${experience}</textarea>
                 </div>
 
                 <div class="resume-content">
                     <h2>Skills</h2>
-                    <ul class="section-list">
-                        ${skills.split('\n').map(skill => `<li>${skill}</li>`).join('')}
-                    </ul>
+                    <textarea class="editable" id="editable-skills">${skills}</textarea>
                 </div>
 
                 <div class="resume-content">
                     <h2>Education</h2>
-                    <ul class="section-list">
-                        ${education.split('\n').map(edu => `<li>${edu}</li>`).join('')}
-                    </ul>
+                    <textarea class="editable" id="editable-education">${education}</textarea>
                 </div>
 
                 <div class="resume-content">
                     <h2>Certifications</h2>
-                    <ul class="section-list">
-                        ${certifications.split('\n').map(cert => `<li>${cert}</li>`).join('')}
-                    </ul>
+                    <textarea class="editable" id="editable-certifications">${certifications}</textarea>
                 </div>
             </body>
             </html>
-        `);
+        );
+
+        // Generate the unique URL and shareable link
+        const username = name.toLowerCase().replace(/\s+/g, '-'); // Use name as a unique identifier
+        const uniqueURL = ${username}.vercel.app/resume;
+
+        document.getElementById("uniqueLink").value = uniqueURL;
+        document.getElementById("shareable-link").style.display = "block";
+        
+        // Display the download button
+        document.getElementById("download").style.display = "block";
+
+        // Add download functionality
+        document.getElementById("download").addEventListener("click", function() {
+            const resumeContent = resumeWindow.document.documentElement.outerHTML;
+            const blob = new Blob([resumeContent], { type: "application/html" });
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = ${name}-resume.html;
+            link.click();
+        });
     }
-
-    // Generate the unique URL and shareable link
-    const username = name.toLowerCase().replace(/\s+/g, '-'); // Use name as a unique identifier
-    const uniqueURL = `${username}.vercel.app/resume`;
-
-    document.getElementById("uniqueLink").value = uniqueURL;
-    document.getElementById("shareable-link").style.display = "block";
-    document.getElementById("download").style.display = "block";
-
-    // Add download functionality
-    document.getElementById("download").addEventListener("click", function() {
-        const resumeContent = resumeWindow.document.documentElement.outerHTML;
-        const blob = new Blob([resumeContent], { type: "application/html" });
-        const link = document.createElement("a");
-        link.href = URL.createObjectURL(blob);
-        link.download = `${name}-resume.html`;
-        link.click();
-    });
 });
 
+// Listen for theme color change
 document.getElementById("themeColor").addEventListener("input", function() {
     document.documentElement.style.setProperty("--theme-color", this.value);
     document.querySelector(".sidebar").style.background = this.value;
     document.querySelector("button").style.background = this.value;
-});
+}); -->
