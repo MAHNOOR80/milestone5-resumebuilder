@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Resume Builder</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1 id="resume-main">RESUME BUILDER BY MAHNOOR NAVEED</h1>
+    <div class="container">
+        <aside class="sidebar">
+            <input type="color" id="themeColor" title="Pick a Theme Color">
+            <div class="profile-pic">
+                <label for="profile-pic">Upload Image</label>
+                <input type="file" id="profile-pic" accept="image/*">
+                <img id="preview" src="" alt="Profile Preview">
+            </div>
+            <h2>Contact Info</h2>
+            <p><strong>Email:</strong> <input type="email" id="email"></p>
+            <p><strong>Phone:</strong> <input type="tel" id="phone"></p>
+            <p><strong>LinkedIn:</strong> <input type="url" id="linkedin"></p>
+            <p><strong>GitHub:</strong> <input type="url" id="github"></p>
+        </aside>
+
+        <main class="content">
+            <header>
+                <h1><input type="text" id="name" placeholder="Your Name"></h1>
+                <h3><input type="text" id="title" placeholder="Your Profession"></h3>
+            </header>
+
+            <section>
+                <h2>Summary</h2>
+                <textarea id="summary" placeholder="Write a short summary..."></textarea>
+            </section>
+
+            <section>
+                <h2>Experience</h2>
+                <textarea id="experience" placeholder="Your experience..."></textarea>
+            </section>
+
+            <section>
+                <h2>Skills</h2>
+                <textarea id="skills" placeholder="Your skills..."></textarea>
+            </section>
+
+            <section>
+                <h2>Education</h2>
+                <textarea id="education" placeholder="Your education..."></textarea>
+            </section>
+
+            <section>
+                <h2>Certifications</h2>
+                <textarea id="certifications" placeholder="Your certifications..."></textarea>
+            </section>
+
+            <button type="button" id="generate">Generate Resume</button>
+        </main>
+    </div>
+
+    <!-- Shareable Link Section -->
+    <div id="shareable-link" style="display: none;">
+        <h3>Your Resume is Ready!</h3>
+        <p>Share your resume via this link:</p>
+        <input type="text" id="uniqueLink" readonly>
+    </div>
+
+    <!-- Download Button -->
+    <button id="download" style="display: none;">Download Resume as PDF</button>
+    
+    <script src="script.js"></script>
+    <script src="html2pdf.bundle.js"></script> <!-- Include html2pdf.js -->
+</body>
+</html>
